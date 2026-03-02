@@ -6,6 +6,7 @@ $(document).ready(function () {
   var isFilled = false;
   var loading = false;
   var deviceId = "";
+  let notebookStock = 3;
 
   let formPayload = null;
 
@@ -57,7 +58,7 @@ $(document).ready(function () {
   function getPosition(position) {
     const rewards = [
       { min: 0, max: 22.5, text: "CHÚC MỪNG BẠN TRÚNG ĐƯỢC MỘT CHIẾC VÉ MAY MẮN LẦN SAU" },
-      { min: 23.5, max: 66.5, text: "TIẾC QUÁ NHƯNG PHẦN QUÀ ĐÃ HẾT RỒI. 😢" },
+      { min: 23.5, max: 66.5, text: "CHÚC MỪNG BẠN TRÚNG ĐƯỢC CUỐN VỞ CDVD" },
       { min: 67.5, max: 111.5, text: "TIẾC QUÁ NHƯNG PHẦN QUÀ ĐÃ HẾT RỒI. 😢" },
       { min: 112.5, max: 147.5, text: "TIẾC QUÁ NHƯNG PHẦN QUÀ ĐÃ HẾT RỒI. 😢" },
       { min: 148.5, max: 201.5, text: "CHÚC MỪNG BẠN TRÚNG ĐƯỢC MỘT CUỐN TẬP" },
@@ -71,7 +72,19 @@ $(document).ready(function () {
     $('.congratulation__note').text(rewardText);
 
     // 🎁 CHỈ CÁC PHẦN CÓ QUÀ
-    if (position >= 245.5 && position <= 336.5) {
+    if (
+      (position >= 23.5 && position <= 66.5) ||
+      (position >= 245.5 && position <= 336.5)
+    ) {
+
+      if (notebookStock > 0) {
+        notebookStock--; // trừ 1 phần
+
+        rewardText = "CHÚC MỪNG BẠN TRÚNG ĐƯỢC CUỐN VỞ CDVD";
+      } else {
+        rewardText = "TIẾC QUÁ NHƯNG PHẦN QUÀ ĐÃ HẾT RỒI. 😢";
+      }
+
       const code = generateRewardCode(6);
 
       $('.congratulation__code').html(
