@@ -15,6 +15,29 @@
   <link rel="stylesheet" href="./assets/css/notify.css" />
   <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
   <script src="./assets/js/audio.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+  <!-- 🔥 THÊM DÒNG NÀY -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <!-- ❌ Có thể bỏ nếu không dùng Realtime DB -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <script>
+    var firebaseConfig = {
+      apiKey: "AIzaSyC2i56KTwYsfNStBKfy0mCzgp9nSQz4y_c",
+      authDomain: "ai-event-game.firebaseapp.com",
+      projectId: "ai-event-game",
+      storageBucket: "ai-event-game.firebasestorage.app",
+      messagingSenderId: "244812837803",
+      appId: "1:244812837803:web:1fab27be1aed40b19118ee",
+      measurementId: "G-JF0GHYJZHG"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
 </head>
 
 <body>
@@ -84,7 +107,7 @@
         <img src="./assets/images/secret-fixed.png" alt="" loading="lazy" />
       </div>
       <div class="wheel__sec">
-        <img src="./assets/images/gift-1-fixed.png" alt="" loading="lazy" />
+        <img src="./assets/images/gaubong1-removebg-preview.png" alt="" loading="lazy" />
       </div>
       <div class="wheel__sec">
         <img src="./assets/images/gift-2-fixed.png" alt="" loading="lazy" />

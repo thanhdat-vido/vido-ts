@@ -1,18 +1,13 @@
 $(document).ready(function () {
+
   const params = new URLSearchParams(window.location.search);
   const lane = params.get("lane") || "Sheet1";
 
   var clicked = false;
   var isFilled = false;
-  var loading = false;
-  var deviceId = "";
-  let notebookStock = 3;
-
   let formPayload = null;
-
   var winAudio = new Audio("./assets/voices/win.wav");
-
-  let value = 0; // Lưu tổng số độ quay để luôn tăng
+  let value = 0;
 
   let Training_industry = ["Kế toán", "QT kinh doanh", "QT văn phòng (Thư ký y khoa)",
     "Logistics", "QT Marketing", "Quan hệ công chúng", "Tài chính - ngân hàng", "Ô tô", "Cơ khí", "Xây dựng", "Điện - Điện Tử - Điện lạnh",
@@ -31,84 +26,207 @@ $(document).ready(function () {
     selectElement.appendChild(option); // Thêm option vào select
   });
 
+  let notebookStock = 0;
+  let tshirtStock = 0;
+  let keychainStock = 0;
+
+  const db = firebase.firestore();
+
+  // NOTEBOOK
+  db.collection("rewards").doc("notebook")
+    .onSnapshot((doc) => {
+      if (doc.exists) {
+        notebookStock = doc.data().notebookStock || 0;
+        console.log("Notebook:", notebookStock);
+      }
+    });
+
+  // TSHIRT
+  db.collection("rewards").doc("tshirt")
+    .onSnapshot((doc) => {
+      if (doc.exists) {
+        tshirtStock = doc.data().tshirtStock || 0;
+        console.log("Tshirt:", tshirtStock);
+      }
+    });
+
+  // KEYCHAIN
+  db.collection("rewards").doc("keychain")
+    .onSnapshot((doc) => {
+      if (doc.exists) {
+        keychainStock = doc.data().keychainStock || 0;
+        console.log("Keychain:", keychainStock);
+      }
+    });
+
+  function decreaseStock(docName, fieldName, callback) {
+
+    const ref = db.collection("rewards").doc(docName);
+
+    db.runTransaction(async (transaction) => {
+
+      const doc = await transaction.get(ref);
+
+      if (!doc.exists) throw "Document does not exist!";
+
+      const currentStock = doc.data()[fieldName];
+
+      if (currentStock > 0) {
+        transaction.update(ref, {
+          [fieldName]: currentStock - 1
+        });
+        return true;
+      } else {
+        return false;
+      }
+
+    }).then((success) => {
+      callback(success);
+    }).catch((error) => {
+      console.error(error);
+      callback(false);
+    });
+  }
+
+  /* =============================
+     🎯 SPIN 1% MỖI QUÀ
+  ============================= */
+
   function spinWheel() {
+
+    let rand = Math.random();
     let targetAngle;
 
-    // ✅ CHỈ rơi vào MAY MẮN LẦN SAU
+    function rotate(angle) {
+      let baseRotation = (Math.floor(Math.random() * 5) + 6) * 360;
+      let final = baseRotation + angle;
+
+      $(".wheel__inner").css({
+        transition: "cubic-bezier(0.19,1,0.22,1) 5s",
+        transform: `rotate(${final}deg)`
+      });
+
+      setTimeout(() => {
+        getPosition(angle);
+      }, 5000);
+    }
+
+    // 🎁 NOTEBOOK 1%
+    if (notebookStock > 0 && rand < 0.01) {
+      decreaseStock("notebook", "notebookStock", (success) => {
+        if (success) {
+          targetAngle = 148.5 + Math.random() * (201.5 - 148.5);
+        } else {
+          targetAngle = Math.random() * 22.5;
+        }
+        rotate(targetAngle);
+      });
+      return;
+    }
+
+    // 🎁 TSHIRT 1%
+    if (tshirtStock > 0 && rand < 0.02) {
+      decreaseStock("tshirt", "tshirtStock", (success) => {
+        if (success) {
+          targetAngle = 202.5 + Math.random() * (246.5 - 202.5);
+        } else {
+          targetAngle = Math.random() * 22.5;
+        }
+        rotate(targetAngle);
+      });
+      return;
+    }
+
+    // 🎁 KEYCHAIN 1%
+    if (keychainStock > 0 && rand < 0.03) {
+      decreaseStock("keychain", "keychainStock", (success) => {
+        if (success) {
+          targetAngle = 292.5 + Math.random() * (336.5 - 292.5);
+        } else {
+          targetAngle = Math.random() * 22.5;
+        }
+        rotate(targetAngle);
+      });
+      return;
+    }
+
+    // ❌ 97% MAY MẮN
     if (Math.random() < 0.5) {
       targetAngle = Math.random() * 22.5;
     } else {
       targetAngle = 337.5 + Math.random() * 22.5;
     }
 
-    let baseRotation = (Math.floor(Math.random() * 5) + 6) * 360;
-    let random = baseRotation + targetAngle;
-
-    $(".wheel__inner").css({
-      transition: "cubic-bezier(0.19,1,0.22,1) 5s",
-      transform: `rotate(${random}deg)`
-    });
-
-    setTimeout(() => {
-      getPosition(random % 360);
-    }, 5000);
+    rotate(targetAngle);
   }
 
+  /* =============================
+     🎯 HIỂN THỊ KẾT QUẢ
+  ============================= */
 
   function getPosition(position) {
-    const rewards = [
-      { min: 0, max: 22.5, text: "CHÚC MỪNG BẠN TRÚNG ĐƯỢC MỘT CHIẾC VÉ MAY MẮN LẦN SAU" },
-      { min: 23.5, max: 66.5, text: "CHÚC MỪNG BẠN TRÚNG ĐƯỢC CUỐN VỞ CDVD" },
-      { min: 67.5, max: 111.5, text: "TIẾC QUÁ NHƯNG PHẦN QUÀ ĐÃ HẾT RỒI. 😢" },
-      { min: 112.5, max: 147.5, text: "TIẾC QUÁ NHƯNG PHẦN QUÀ ĐÃ HẾT RỒI. 😢" },
-      { min: 148.5, max: 201.5, text: "CHÚC MỪNG BẠN TRÚNG ĐƯỢC MỘT CUỐN TẬP" },
-      { min: 202.5, max: 246.5, text: "CHÚC MỪNG BẠN TRÚNG ĐƯỢC MỘT CHIẾC ÁO" },
-      { min: 245.5, max: 291.5, text: "CHÚC MỪNG BẠN TRÚNG ĐƯỢC MỘT TÚI MÙ" },
-      { min: 292.5, max: 336.5, text: "CHÚC MỪNG BẠN TRÚNG ĐƯỢC MỘT CHIẾC MÓC KHÓA" },
-      { min: 337.5, max: 360, text: "CHÚC MỪNG BẠN TRÚNG ĐƯỢC MỘT CHIẾC VÉ MAY MẮN LẦN SAU" },
-    ];
 
-    let rewardText = rewards.find(r => position >= r.min && position <= r.max)?.text || "";
+    let rewardText = "";
+    let code = "";
+    let descriptionText = "";
+
+    // CUỐN VỞ
+    if (position >= 148.5 && position <= 201.5) {
+      rewardText = "CHÚC MỪNG BẠN TRÚNG ĐƯỢC CUỐN VỞ CDVD";
+      code = generateRewardCode(6);
+      descriptionText = "Vui lòng đến gian hàng Cao đẳng Viễn Đông để nhận quà hoặc gửi mã này cho fanpage.";
+    }
+
+    // ÁO
+    else if (position >= 202.5 && position <= 246.5) {
+      rewardText = "CHÚC MỪNG BẠN TRÚNG MỘT CON GẤU BÔNG";
+      code = generateRewardCode(6);
+      descriptionText = "Vui lòng đến gian hàng Cao đẳng Viễn Đông để nhận quà hoặc gửi mã này cho fanpage.";
+    }
+
+    // MÓC KHÓA
+    else if (position >= 292.5 && position <= 336.5) {
+      rewardText = "CHÚC MỪNG BẠN TRÚNG ĐƯỢC MÓC KHÓA CDVD";
+      code = generateRewardCode(6);
+      descriptionText = "Vui lòng đến gian hàng Cao đẳng Viễn Đông để nhận quà hoặc gửi mã này cho fanpage.";
+    }
+
+    // VÉ MAY MẮN
+    else {
+      rewardText = "CHÚC MỪNG BẠN TRÚNG ĐƯỢC MỘT CHIẾC VÉ MAY MẮN LẦN SAU";
+      code = "";
+      descriptionText = ""; // ❗ Không có mô tả
+    }
+
+    // Hiện nội dung chính
     $('.congratulation__note').text(rewardText);
 
-    // 🎁 CHỈ CÁC PHẦN CÓ QUÀ
-    if (
-      (position >= 23.5 && position <= 66.5) ||
-      (position >= 245.5 && position <= 336.5)
-    ) {
-
-      if (notebookStock > 0) {
-        notebookStock--; // trừ 1 phần
-
-        rewardText = "CHÚC MỪNG BẠN TRÚNG ĐƯỢC CUỐN VỞ CDVD";
-      } else {
-        rewardText = "TIẾC QUÁ NHƯNG PHẦN QUÀ ĐÃ HẾT RỒI. 😢";
-      }
-
-      const code = generateRewardCode(6);
-
+    // Nếu có mã quà
+    if (code) {
       $('.congratulation__code').html(
         `Mã nhận thưởng: <span style="color:red;font-style:italic">${code}</span>`
       );
 
-      $('.congratulation__description').text(
-        'Vui lòng đến gian hàng Cao đẳng Viễn Đông để nhận quà hoặc gửi mã này cho fanpage.'
-      );
+      $('.congratulation__description').text(descriptionText);
 
-      // 🔥 OPTIONAL: nếu muốn GHI CODE VÀO PAYLOAD (KHÔNG GỬI LẠI)
       if (formPayload) {
         formPayload.reward = rewardText;
         formPayload.code = code;
       }
     } else {
+      // ❗ Clear sạch nếu không có quà
       $('.congratulation__code').html('');
+      $('.congratulation__description').text('');
     }
 
     winAudio.play();
     $('.popup').removeClass('active');
     $('.congratulation').fadeIn();
-  }
 
+    $(".information-form button[type='submit']")
+      .find(".loader")
+      .fadeOut();
+  }
 
   function generateRewardCode(length) {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -119,28 +237,40 @@ $(document).ready(function () {
     return code;
   }
 
+
   function submitToGoogleSheetAsync(payload, retry = 0) {
-    fetch("https://script.google.com/macros/s/AKfycbxlQQaMbpDuRp86o347gd_SA8BfN6NwL6mi_Q6HKIQybr7F2bEsOYs3zHCh_EtJIJAqrg/exec", {
+    return fetch("https://script.google.com/macros/s/AKfycbxlQQaMbpDuRp86o347gd_SA8BfN6NwL6mi_Q6HKIQybr7F2bEsOYs3zHCh_EtJIJAqrg/exec", {
       method: "POST",
       body: new URLSearchParams(payload),
     })
       .then(res => res.text())
       .then(() => {
         console.log("✅ Saved to Google Sheet");
+        return true;
       })
       .catch(err => {
         console.warn("❌ Save failed", err);
+
         if (retry < 2) {
-          setTimeout(() => submitToGoogleSheetAsync(payload, retry + 1), 1000);
+          return new Promise(resolve =>
+            setTimeout(() =>
+              resolve(submitToGoogleSheetAsync(payload, retry + 1)),
+              1000
+            )
+          );
         }
+
+        throw err;
       });
   }
 
   $(document).on(
     "click",
     ".information-form button[type='submit']",
-    function (event) {
+    async function (event) {
       event.preventDefault();
+
+      if (clicked) return;
 
       /* =========================
          GET INPUT
@@ -162,41 +292,32 @@ $(document).ready(function () {
         !inputHighschoolValue ||
         !inputClassValue
       ) {
-        $("#notify").text("Vui lòng điền đầy đủ thông tin!").addClass("show");
-        setTimeout(() => $("#notify").removeClass("show"), 3000);
+        showNotify("Vui lòng điền đầy đủ thông tin!");
         return;
       }
 
       if (inputNameValue.length < 3) {
-        $("#notify").text("Vui lòng nhập đúng họ tên của bạn").addClass("show");
-        setTimeout(() => $("#notify").removeClass("show"), 3000);
+        showNotify("Vui lòng nhập đúng họ tên của bạn");
         return;
       }
 
       if (inputPhoneValue.length < 10 || inputPhoneValue.length > 11) {
-        $("#notify").text("Số điện thoại không hợp lệ!").addClass("show");
-        setTimeout(() => $("#notify").removeClass("show"), 3000);
+        showNotify("Số điện thoại không hợp lệ!");
         return;
       }
 
       /* =========================
          LOCK BUTTON
       ========================= */
-      if (clicked) return;
       clicked = true;
 
-      $(".information-form button[type='submit']")
-        .prop("disabled", true)
-        .find(".loader")
-        .fadeIn();
+      const $btn = $(".information-form button[type='submit']");
+
+      $btn.prop("disabled", true);
+      $btn.find(".loader").fadeIn();
 
       /* =========================
-         CLOSE FORM (UX)
-      ========================= */
-      $(".information").fadeOut();
-
-      /* =========================
-         PREPARE PAYLOAD (GLOBAL)
+         PREPARE DATA
       ========================= */
       formPayload = {
         fullname: inputNameValue,
@@ -205,47 +326,53 @@ $(document).ready(function () {
         class: inputClassValue,
         highschool: inputHighschoolValue,
         industry: selectedIndustry,
-        lane: typeof lane !== "undefined" ? lane : "DEFAULT",
         created_at: new Date().toISOString()
       };
 
-      /* =========================
-         SAVE GOOGLE SHEET (ASYNC)
-      ========================= */
-      submitToGoogleSheetAsync(formPayload);
+      try {
+        /* =========================
+           SAVE GOOGLE SHEET
+        ========================= */
+        submitToGoogleSheetAsync(formPayload);
 
-      /* =========================
-         SPIN WHEEL (NO WAIT)
-      ========================= */
-      setTimeout(() => {
+        isFilled = true;
+
+        $(".information").fadeOut();
+
+        setTimeout(() => {
+          $btn.find(".loader").fadeOut();
+        }, 300);
+
+        /* =========================
+           SPIN
+        ========================= */
         spinWheel();
-      }, 300);
+
+      } catch (err) {
+        console.error(err);
+        showNotify("Có lỗi xảy ra, thử lại!");
+        clicked = false;
+        $btn.prop("disabled", false);
+        $btn.find(".loader").fadeOut();
+      }
     }
   );
 
+  /* =========================
+     WHEEL BUTTON
+  ========================= */
+  $(".wheel__button").click(function () {
 
-  $(".wheel__button").click(async function () {
-    // await checkIfPlayed();
+    if (clicked) {
+      alert("Bạn đã chơi rồi!");
+      return;
+    }
+
     if (!isFilled) {
       $(".information").fadeIn();
       return;
     }
-    // await checkIfPlayed().then((isPlayed) => {
-    //     if (isPlayed) {
-    //         alert("Bạn đã chơi một lần rồi!");
-    //     }
-    //     else {
-    //         if (!isFilled) {
-    //             $('.information').fadeIn();
-    //             return;
-    //         }
 
-    //         // if (!clicked) {
-    //         //     spinWheel("159630", deviceId);
-    //         // }
-    //         // clicked = true;
-    //     }
-    // });
   });
 
   $(".congratulation__close").click(function () {
@@ -290,4 +417,66 @@ $(document).ready(function () {
         $(this).attr("type", "text");
       }
     });
+
+  window.testSpinReward = function (rewardName) {
+
+    function rotate(angle) {
+      let baseRotation = 5 * 360; // quay 5 vòng cho đẹp
+      let final = baseRotation + angle;
+
+      $(".wheel__inner").css({
+        transition: "cubic-bezier(0.19,1,0.22,1) 3s",
+        transform: `rotate(${final}deg)`
+      });
+
+      setTimeout(() => {
+        getPosition(angle);
+      }, 3000);
+    }
+
+    if (rewardName === "notebook") {
+
+      decreaseStock("notebook", "notebookStock", (success) => {
+        if (success) {
+          let angle = 148.5 + 5; // nằm chắc trong vùng notebook
+          rotate(angle);
+        } else {
+          alert("Notebook hết rồi");
+        }
+      });
+
+    }
+    else if (rewardName === "tshirt") {
+
+      decreaseStock("tshirt", "tshirtStock", (success) => {
+        if (success) {
+          let angle = 202.5 + 5;
+          rotate(angle);
+        } else {
+          alert("Tshirt hết rồi");
+        }
+      });
+
+    }
+    else if (rewardName === "keychain") {
+
+      decreaseStock("keychain", "keychainStock", (success) => {
+        if (success) {
+          let angle = 292.5 + 5;
+          rotate(angle);
+        } else {
+          alert("Keychain hết rồi");
+        }
+      });
+
+    }
+    else {
+      // test may mắn
+      let angle = 10;
+      rotate(angle);
+    }
+  }
+
 });
+
+
