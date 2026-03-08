@@ -226,6 +226,20 @@ $(document).ready(function () {
     $(".information-form button[type='submit']")
       .find(".loader")
       .fadeOut();
+
+    /* MỞ LẠI LƯỢT CHƠI */
+    setTimeout(() => {
+
+      clicked = false;
+
+      $(".information-form button[type='submit']")
+        .prop("disabled", false);
+
+      $(".information-form")[0].reset();
+
+      isFilled = false;
+
+    }, 1000);
   }
 
   function generateRewardCode(length) {
