@@ -111,8 +111,8 @@ $(document).ready(function () {
       }, 5000);
     }
 
-    // 🎁 NOTEBOOK 1%
-    if (notebookStock > 0 && rand < 0.01) {
+    // 🎁 NOTEBOOK 2%
+    if (notebookStock > 0 && rand < 0.02) {
       decreaseStock("notebook", "notebookStock", (success) => {
         if (success) {
           targetAngle = 148.5 + Math.random() * (201.5 - 148.5);
@@ -124,8 +124,8 @@ $(document).ready(function () {
       return;
     }
 
-    // 🎁 TSHIRT 1%
-    if (tshirtStock > 0 && rand < 0.02) {
+    // 🎁 TSHIRT 2%
+    if (tshirtStock > 0 && rand < 0.04) {
       decreaseStock("tshirt", "tshirtStock", (success) => {
         if (success) {
           targetAngle = 202.5 + Math.random() * (246.5 - 202.5);
@@ -137,8 +137,8 @@ $(document).ready(function () {
       return;
     }
 
-    // 🎁 KEYCHAIN 1%
-    if (keychainStock > 0 && rand < 0.03) {
+    // 🎁 KEYCHAIN 2%
+    if (keychainStock > 0 && rand < 0.06) {
       decreaseStock("keychain", "keychainStock", (success) => {
         if (success) {
           targetAngle = 292.5 + Math.random() * (336.5 - 292.5);
@@ -150,7 +150,7 @@ $(document).ready(function () {
       return;
     }
 
-    // ❌ 97% MAY MẮN
+    // ❌ 94% MAY MẮN
     if (Math.random() < 0.5) {
       targetAngle = Math.random() * 22.5;
     } else {
