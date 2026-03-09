@@ -340,7 +340,8 @@ $(document).ready(function () {
         class: inputClassValue,
         highschool: inputHighschoolValue,
         industry: selectedIndustry,
-        created_at: new Date().toISOString()
+        created_at: new Date().toISOString(),
+        lane: lane
       };
 
       try {
