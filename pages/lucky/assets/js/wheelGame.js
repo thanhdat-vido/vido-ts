@@ -30,35 +30,58 @@ $(document).ready(function () {
   let tshirtStock = 0;
   let keychainStock = 0;
 
+  function showNotify(message) {
+    const div = document.createElement("div");
+    div.innerText = message;
+
+    div.style.position = "fixed";
+    div.style.top = "20px";
+    div.style.right = "20px";
+    div.style.background = "#ff4d4f";
+    div.style.color = "#fff";
+    div.style.padding = "10px 15px";
+    div.style.borderRadius = "5px";
+    div.style.zIndex = 9999;
+
+    document.body.appendChild(div);
+
+    setTimeout(() => {
+      div.remove();
+    }, 3000);
+  }
+
   const db = firebase.firestore();
 
   // NOTEBOOK
-  db.collection("rewards").doc("notebook")
-    .onSnapshot((doc) => {
-      if (doc.exists) {
-        notebookStock = doc.data().notebookStock || 0;
-        console.log("Notebook:", notebookStock);
-      }
-    });
+  async function loadStock() {
+    try {
+      const [notebookDoc, tshirtDoc, keychainDoc] = await Promise.all([
+        db.collection("rewards").doc("notebook").get(),
+        db.collection("rewards").doc("tshirt").get(),
+        db.collection("rewards").doc("keychain").get()
+      ]);
 
-  // TSHIRT
-  db.collection("rewards").doc("tshirt")
-    .onSnapshot((doc) => {
-      if (doc.exists) {
-        tshirtStock = doc.data().tshirtStock || 0;
-        console.log("Tshirt:", tshirtStock);
-      }
-    });
+      notebookStock = notebookDoc.data()?.notebookStock || 0;
+      tshirtStock = tshirtDoc.data()?.tshirtStock || 0;
+      keychainStock = keychainDoc.data()?.keychainStock || 0;
 
-  // KEYCHAIN
-  db.collection("rewards").doc("keychain")
-    .onSnapshot((doc) => {
-      if (doc.exists) {
-        keychainStock = doc.data().keychainStock || 0;
-        console.log("Keychain:", keychainStock);
-      }
-    });
+      console.log("Stock loaded:", {
+        notebookStock,
+        tshirtStock,
+        keychainStock
+      });
 
+    } catch (err) {
+      console.error("Load stock failed:", err);
+    }
+  }
+
+  // 👉 load 1 lần khi vào web
+  loadStock();
+
+  /* =============================
+     🔽 DECREASE STOCK (GIỮ NGUYÊN)
+  ============================= */
   function decreaseStock(docName, fieldName, callback) {
 
     const ref = db.collection("rewards").doc(docName);
@@ -81,7 +104,16 @@ $(document).ready(function () {
       }
 
     }).then((success) => {
+
+      // 🔥 update local luôn (khỏi cần realtime)
+      if (success) {
+        if (docName === "notebook") notebookStock--;
+        if (docName === "tshirt") tshirtStock--;
+        if (docName === "keychain") keychainStock--;
+      }
+
       callback(success);
+
     }).catch((error) => {
       console.error(error);
       callback(false);
@@ -89,9 +121,8 @@ $(document).ready(function () {
   }
 
   /* =============================
-     🎯 SPIN 1% MỖI QUÀ
+     🎯 SPIN
   ============================= */
-
   function spinWheel() {
 
     let rand = Math.random();
@@ -111,51 +142,40 @@ $(document).ready(function () {
       }, 5000);
     }
 
-    // 🎁 NOTEBOOK 2%
     if (notebookStock > 0 && rand < 0.02) {
       decreaseStock("notebook", "notebookStock", (success) => {
-        if (success) {
-          targetAngle = 148.5 + Math.random() * (201.5 - 148.5);
-        } else {
-          targetAngle = Math.random() * 22.5;
-        }
+        targetAngle = success
+          ? 148.5 + Math.random() * 50
+          : Math.random() * 22.5;
         rotate(targetAngle);
       });
       return;
     }
 
-    // 🎁 TSHIRT 2%
     if (tshirtStock > 0 && rand < 0.04) {
       decreaseStock("tshirt", "tshirtStock", (success) => {
-        if (success) {
-          targetAngle = 202.5 + Math.random() * (246.5 - 202.5);
-        } else {
-          targetAngle = Math.random() * 22.5;
-        }
+        targetAngle = success
+          ? 202.5 + Math.random() * 40
+          : Math.random() * 22.5;
         rotate(targetAngle);
       });
       return;
     }
 
-    // 🎁 KEYCHAIN 2%
     if (keychainStock > 0 && rand < 0.06) {
       decreaseStock("keychain", "keychainStock", (success) => {
-        if (success) {
-          targetAngle = 292.5 + Math.random() * (336.5 - 292.5);
-        } else {
-          targetAngle = Math.random() * 22.5;
-        }
+        targetAngle = success
+          ? 292.5 + Math.random() * 40
+          : Math.random() * 22.5;
         rotate(targetAngle);
       });
       return;
     }
 
-    // ❌ 94% MAY MẮN
-    if (Math.random() < 0.5) {
-      targetAngle = Math.random() * 22.5;
-    } else {
-      targetAngle = 337.5 + Math.random() * 22.5;
-    }
+    // ❌ trượt
+    targetAngle = Math.random() < 0.5
+      ? Math.random() * 22.5
+      : 337.5 + Math.random() * 22.5;
 
     rotate(targetAngle);
   }
@@ -311,7 +331,7 @@ $(document).ready(function () {
       }
 
       if (inputNameValue.length < 3) {
-        showNotify("Vui lòng nhập đúng họ tên của bạn");
+        showNotify("Vui lòng nhập đầy đủ họ tên của bạn");
         return;
       }
 

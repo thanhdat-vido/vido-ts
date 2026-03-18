@@ -151,41 +151,41 @@ const server = app.listen(port, () => {
     console.log(`Server listening on port ${port}`);
 });
 
-const io = socketIO(server, {
-    cors: {
-        origin: "http://localhost:3050",
-        credentials: true,
-    },
-});
+// const io = socketIO(server, {
+//     cors: {
+//         origin: "http://localhost:3050",
+//         credentials: true,
+//     },
+// });
 
-io.on("connection", (socket) => {
-    socket.on("newChatMessage", (data) => {
-        const { roomId, sender, messageType, messageText } = data;
-        const obj = {
-            roomId,
-            sender,
-            messageType,
-            message: messageText,
-            timeStamp: new Date(),
-        }
+// io.on("connection", (socket) => {
+//     socket.on("newChatMessage", (data) => {
+//         const { roomId, sender, messageType, messageText } = data;
+//         const obj = {
+//             roomId,
+//             sender,
+//             messageType,
+//             message: messageText,
+//             timeStamp: new Date(),
+//         }
 
-        const messageMongo = new Message(obj);
-        messageMongo.save();
+//         const messageMongo = new Message(obj);
+//         messageMongo.save();
 
-        socket.emit("groupMessage", obj);
-        chatgroups.push(obj);
-        // socket.emit("groupList", chatgroups);
-        socket.emit("foundGroup", chatgroups);
-    });
+//         socket.emit("groupMessage", obj);
+//         chatgroups.push(obj);
+//         // socket.emit("groupList", chatgroups);
+//         socket.emit("foundGroup", chatgroups);
+//     });
 
-    socket.on("connect_error", (err) => {
-        // the reason of the error, for example "xhr poll error"
-        console.log(err.message);
+//     socket.on("connect_error", (err) => {
+//         // the reason of the error, for example "xhr poll error"
+//         console.log(err.message);
 
-        // some additional description, for example the status code of the initial HTTP response
-        console.log(err.description);
+//         // some additional description, for example the status code of the initial HTTP response
+//         console.log(err.description);
 
-        // some additional context, for example the XMLHttpRequest object
-        console.log(err.context);
-    });
-})
+//         // some additional context, for example the XMLHttpRequest object
+//         console.log(err.context);
+//     });
+// })
