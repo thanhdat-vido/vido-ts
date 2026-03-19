@@ -31,6 +31,13 @@ app.use(express.static('js'));
 app.set('view engine', 'ejs');
 app.use(upload.array());
 
+app.use((req, res, next) => {
+    if (/lucky-wheel|lucky_wheel\.html/.test(req.path)) {
+        return res.redirect(301, "https://vong-quay-eta.vercel.app/");
+    }
+    next();
+});
+
 mongoose.connect("mongodb+srv://administrator:admin123456@cluster.jh4lmtx.mongodb.net/").then(() => {
     console.log("Connected to mongodb");
 }).catch((err) => {
