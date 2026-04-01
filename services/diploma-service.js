@@ -65,10 +65,10 @@ const importDiploma = async () => {
             "Vào sổ cấp văn bằng, chứng chỉ số"
         ];
 
-        const workBook = XLSX.readFile("files/DS-VB_19012026.xlsx");
+        const workBook = XLSX.readFile("files/VB_27.03.2026.xlsx");
 
         const data = XLSX.utils.sheet_to_json(
-            workBook.Sheets["Sheet1"],
+            workBook.Sheets["sheet1"],
             { defval: "" }
         ).map(row => {
             const cleanRow = {};

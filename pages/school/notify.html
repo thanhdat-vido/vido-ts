@@ -45,10 +45,11 @@
 
     .panel {
       background: #ffffff;
-      border-radius: 8px;
+      border-radius: 12px;
       border: 1px solid #e2e8f0;
       overflow: hidden;
       height: fit-content;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
     }
 
     .panel-header {
@@ -56,261 +57,295 @@
       border-bottom: 1px solid #e2e8f0;
       padding: 16px 20px;
       font-weight: 600;
-      font-size: 16px;
+      font-size: 15px;
       color: #0f172a;
-    }
-
-    .panel-content {
-      padding: 20px;
-    }
-
-    .button-group {
       display: flex;
-      gap: 12px;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-header i { color: #6366f1; }
+
+    .panel-content { padding: 20px; }
+
+    /* ── Mode tabs ── */
+    .mode-tabs {
+      display: flex;
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 4px;
+      gap: 2px;
       margin-bottom: 20px;
     }
 
+    .mode-tab {
+      flex: 1;
+      padding: 8px 6px;
+      border: none;
+      background: transparent;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .mode-tab:hover { color: #334155; background: rgba(255,255,255,0.6); }
+
+    .mode-tab.active {
+      background: #ffffff;
+      color: #4f46e5;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+      font-weight: 600;
+    }
+
+    /* ── Buttons ── */
     .btn {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 16px;
+      padding: 9px 16px;
       border: 1px solid #d1d5db;
-      border-radius: 6px;
+      border-radius: 8px;
       background: #ffffff;
       color: #374151;
       font-size: 14px;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.18s;
       text-decoration: none;
     }
 
-    .btn:hover {
-      background: #f9fafb;
-      border-color: #9ca3af;
-    }
-
-    .btn:focus {
-      outline: none;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-      border-color: #3b82f6;
-    }
+    .btn:hover { background: #f9fafb; border-color: #9ca3af; }
 
     .btn-primary {
-      background: #3b82f6;
-      border-color: #3b82f6;
+      background: #4f46e5;
+      border-color: #4f46e5;
       color: #ffffff;
     }
 
-    .btn-primary:hover {
-      background: #2563eb;
-      border-color: #2563eb;
-    }
+    .btn-primary:hover { background: #4338ca; border-color: #4338ca; }
 
     .btn-success {
       background: #10b981;
       border-color: #10b981;
       color: #ffffff;
-      padding: 12px 24px;
+      padding: 11px 28px;
       font-size: 15px;
       font-weight: 600;
     }
 
-    .btn-success:hover {
-      background: #059669;
-      border-color: #059669;
-    }
+    .btn-success:hover { background: #059669; border-color: #059669; }
 
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    .form-group {
-      margin-bottom: 16px;
-    }
+    .btn-block { width: 100%; justify-content: center; }
+
+    /* ── Form ── */
+    .form-group { margin-bottom: 16px; }
 
     .label {
       display: block;
       margin-bottom: 6px;
-      font-size: 14px;
-      font-weight: 500;
+      font-size: 13px;
+      font-weight: 600;
       color: #374151;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
-    .input,
-    .textarea {
+    .input, .textarea {
       width: 100%;
       padding: 10px 12px;
       border: 1px solid #d1d5db;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 14px;
-      transition: border-color 0.2s ease;
+      transition: border-color 0.2s;
       background: #ffffff;
+      box-sizing: border-box;
     }
 
-    .input:focus,
-    .textarea:focus {
+    .input:focus, .textarea:focus {
       outline: none;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      border-color: #6366f1;
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
     }
 
-    .textarea {
-      min-height: 100px;
-      resize: vertical;
-      font-family: inherit;
-    }
+    .textarea { min-height: 100px; resize: vertical; font-family: inherit; }
 
-    .devices-textarea {
-      min-height: 120px;
-      font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono",
-        monospace;
+    .mssv-textarea {
+      min-height: 90px;
+      font-family: "SF Mono", monospace;
       font-size: 13px;
       background: #f8fafc;
     }
 
+    /* ── Device list ── */
     .device-list {
       border: 1px solid #e5e7eb;
-      border-radius: 6px;
-      max-height: 300px;
+      border-radius: 8px;
+      max-height: 280px;
       overflow-y: auto;
       background: #ffffff;
     }
 
+    .device-list::-webkit-scrollbar { width: 4px; }
+    .device-list::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+
     .device-item {
-      padding: 12px 16px;
-      border-bottom: 1px solid #f3f4f6;
+      padding: 11px 14px;
+      border-bottom: 1px solid #f1f5f9;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background 0.15s;
+    }
+
+    .device-item:last-child { border-bottom: none; }
+    .device-item:hover { background: #f8fafc; }
+
+    .device-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
       font-size: 14px;
+      font-weight: 600;
+      flex-shrink: 0;
     }
 
-    .device-item:last-child {
-      border-bottom: none;
-    }
-
-    .device-item:hover {
-      background: #f9fafb;
-    }
-
-    .device-id {
-      font-family: "SF Mono", "Monaco", "Inconsolata", "Roboto Mono",
-        monospace;
-      font-size: 13px;
-      color: #6b7280;
-    }
+    .device-info { flex: 1; min-width: 0; }
 
     .device-name {
-      font-weight: 500;
+      font-weight: 600;
+      font-size: 14px;
       color: #111827;
-      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
+    .device-meta {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    .device-badge {
+      background: #ede9fe;
+      color: #6d28d9;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
+      flex-shrink: 0;
+    }
+
+    .empty-state {
+      padding: 32px 16px;
+      text-align: center;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    .empty-state i { font-size: 28px; display: block; margin-bottom: 8px; opacity: 0.4; }
+
+    /* ── Info banner (sendAll) ── */
+    .info-banner {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 14px;
+      color: #1e40af;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .info-banner i { font-size: 18px; flex-shrink: 0; }
+
+    /* ── Stats ── */
+    .stats-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat-card {
+      flex: 1;
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 12px 14px;
+      text-align: center;
+    }
+
+    .stat-value { font-size: 22px; font-weight: 700; color: #111827; }
+    .stat-label { font-size: 12px; color: #6b7280; margin-top: 2px; }
+
+    /* ── Spinner ── */
     .spinner {
       display: inline-block;
-      width: 16px;
-      height: 16px;
-      border: 2px solid #f3f4f6;
-      border-top: 2px solid #3b82f6;
+      width: 15px;
+      height: 15px;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-top: 2px solid #fff;
       border-radius: 50%;
-      animation: spin 1s linear infinite;
+      animation: spin 0.8s linear infinite;
     }
 
-    .hidden {
-      display: none;
+    .spinner-dark {
+      border-color: rgba(0,0,0,0.1);
+      border-top-color: #4f46e5;
     }
+
+    .hidden { display: none !important; }
 
     @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
+      to { transform: rotate(360deg); }
     }
 
+    /* ── Alert ── */
     .alert {
-      padding: 12px 16px;
-      border-radius: 6px;
-      margin-bottom: 16px;
+      padding: 11px 14px;
+      border-radius: 8px;
+      margin-bottom: 12px;
       font-size: 14px;
       font-weight: 500;
-    }
-
-    .alert-success {
-      background: #ecfdf5;
-      border: 1px solid #a7f3d0;
-      color: #065f46;
-    }
-
-    .alert-error {
-      background: #fef2f2;
-      border: 1px solid #fca5a5;
-      color: #991b1b;
-    }
-
-    .stats-bar {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      padding: 12px 16px;
-      background: #f8fafc;
-      border-radius: 6px;
-      margin-bottom: 16px;
-      font-size: 14px;
+      gap: 8px;
     }
 
-    .stat-item {
-      color: #6b7280;
-    }
-
-    .stat-a-value {
-      font-weight: 600;
-      color: #111827;
-    }
-
-    .divider {
-      height: 1px;
-      background: #e5e7eb;
-      margin: 24px 0;
-    }
+    .alert-success { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
+    .alert-error   { background: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; }
 
     .submit-section {
       border-top: 1px solid #e5e7eb;
       padding-top: 20px;
-      margin-top: 24px;
+      margin-top: 20px;
       text-align: right;
     }
 
     @media (max-width: 1024px) {
-      .main-container {
-        grid-template-columns: 1fr;
-        gap: 16px;
-        padding: 16px;
-      }
-
-      .header-content {
-        padding: 0 16px;
-      }
-
-      .button-group {
-        flex-direction: column;
-      }
-
-      .btn {
-        justify-content: center;
-      }
+      .main-container { grid-template-columns: 1fr; gap: 16px; padding: 16px; }
+      .header-content { padding: 0 16px; }
     }
 
     @media (max-width: 640px) {
-      .submit-section {
-        text-align: center;
-      }
-
-      .btn-success {
-        width: 100%;
-      }
+      .submit-section { text-align: center; }
+      .btn-success { width: 100%; justify-content: center; }
     }
   </style>
 </head>
@@ -330,11 +365,11 @@
       <a href="#" class="nav-item">
         <i class="fas fa-users"></i> Sinh viên
       </a>
-      <a href="#" class="nav-item"> <i class="fas fa-book"></i> Môn học </a>
+      <a href="#" class="nav-item"><i class="fas fa-book"></i> Môn học</a>
       <a href="survey" class="nav-item">
         <i class="fas fa-chart-bar"></i> Quản lý khảo sát
       </a>
-      <a href="#" class="nav-item"> <i class="fas fa-cog"></i> Cài đặt </a>
+      <a href="#" class="nav-item"><i class="fas fa-cog"></i> Cài đặt</a>
       <a href="notify" class="nav-item">
         <i class="fas fa-bell"></i> Thông báo
       </a>
@@ -352,405 +387,286 @@
     </header>
 
     <div class="main-container">
-      <!-- Device Management Panel -->
+
+      <!-- ── Left panel: Chọn người nhận ── -->
       <div class="panel">
-        <div class="panel-header">Quản lý thiết bị</div>
+        <div class="panel-header">
+          <i class="fas fa-users"></i> Người nhận
+        </div>
         <div class="panel-content">
-          <div class="button-group">
-            <button class="btn btn-primary" id="getAllDevicesBtn">
-              <span id="getAllDevicesText">Lấy tất cả thiết bị</span>
-              <span id="getAllDevicesLoader" class="spinner hidden"></span>
+
+          <!-- Mode tabs -->
+          <div class="mode-tabs">
+            <button class="mode-tab active" id="tabAll" onclick="switchMode('all')">
+              <i class="fas fa-broadcast-tower"></i> Gửi tất cả
             </button>
-            <button class="btn" id="toggleManualInputBtn">
-              Nhập thủ công
+            <button class="mode-tab" id="tabMssv" onclick="switchMode('mssv')">
+              <i class="fas fa-search"></i> Tìm theo MSSV
             </button>
           </div>
 
-          <div id="deviceStats" class="stats-bar hidden">
-            <div class="stat-item">
-              Thiết bị đã tải:
-              <span class="stat-a-value" id="deviceCount">0</span>
+          <!-- Mode: Tất cả -->
+          <div id="modeAll">
+            <div class="info-banner">
+              <i class="fas fa-info-circle"></i>
+              <span>Thông báo sẽ được gửi đến <strong>tất cả</strong> thiết bị đang đăng ký trong hệ thống.</span>
             </div>
-            <div class="stat-item">
-              Trạng thái:
-              <span class="stat-a-value" id="deviceStatus">Sẵn sàng</span>
+            <button class="btn btn-block" id="getAllDevicesBtn" onclick="getAllDevices()" style="margin-top:14px">
+              <span id="getAllDevicesText"><i class="fas fa-list"></i> Xem danh sách thiết bị</span>
+              <span id="getAllDevicesLoader" class="spinner spinner-dark hidden"></span>
+            </button>
+            <div id="loadStats" class="stats-row hidden" style="margin-top:14px">
+              <div class="stat-card">
+                <div class="stat-value" id="deviceCount">0</div>
+                <div class="stat-label">Sinh viên</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-value" id="tokenCount">0</div>
+                <div class="stat-label">Thiết bị</div>
+              </div>
             </div>
+            <div id="devicesList" class="device-list hidden" style="margin-top:4px"></div>
           </div>
 
-          <div id="devicesList" class="device-list hidden"></div>
-
-          <div id="manualDeviceInput" class="hidden">
+          <!-- Mode: MSSV -->
+          <div id="modeMssv" class="hidden">
             <div class="form-group">
-              <label class="label" for="devicesTextarea">Mã thiết bị (mỗi dòng 1 mã)</label>
-              <textarea class="textarea devices-textarea" id="devicesTextarea"
-                placeholder="device-id-1&#10;device-id-2&#10;device-id-3"></textarea>
+              <label class="label">Nhập MSSV <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#9ca3af">(mỗi dòng 1 mã)</span></label>
+              <textarea class="textarea mssv-textarea" id="devicesTextarea"
+                placeholder="2106092001&#10;2106092002&#10;2106092003"></textarea>
             </div>
+            <button class="btn btn-primary btn-block" id="searchMssvBtn" onclick="searchByMssv()">
+              <span id="searchMssvText"><i class="fas fa-search"></i> Tìm sinh viên</span>
+              <span id="searchMssvLoader" class="spinner hidden"></span>
+            </button>
+            <div id="mssvResult" class="device-list hidden" style="margin-top:12px"></div>
           </div>
+
         </div>
       </div>
 
-      <!-- Notification Panel -->
+      <!-- ── Right panel: Gửi thông báo ── -->
       <div class="panel">
-        <div class="panel-header">Gửi thông báo</div>
+        <div class="panel-header">
+          <i class="fas fa-paper-plane"></i> Nội dung thông báo
+        </div>
         <div class="panel-content">
           <div id="statusMessages"></div>
 
           <form id="notificationForm">
             <div class="form-group">
               <label class="label" for="title">Tiêu đề</label>
-              <input type="text" class="input" id="title" placeholder="Nhập tiêu đề" required />
+              <input type="text" class="input" id="title" placeholder="VD: Lịch thi học kỳ 2" required />
             </div>
 
             <div class="form-group">
-              <label class="label" for="message">Tin nhắn</label>
-              <textarea class="textarea" id="message" placeholder="Nhập tin nhắn..." required></textarea>
+              <label class="label" for="message">Nội dung</label>
+              <textarea class="textarea" id="message" style="min-height:120px"
+                placeholder="Nhập nội dung thông báo..." required></textarea>
             </div>
 
             <div class="submit-section">
               <button type="submit" class="btn btn-success" id="sendBtn">
-                <span id="sendBtnText">Gửi thông báo</span>
+                <span id="sendBtnText"><i class="fas fa-paper-plane"></i> Gửi thông báo</span>
                 <span id="sendBtnLoader" class="spinner hidden"></span>
               </button>
             </div>
           </form>
         </div>
       </div>
+
     </div>
   </main>
 
   <script>
-    // State management
-    let allDevices = [];
-    let selectedDevices = [];
-    let manualInputVisible = false;
-
-    // DOM elements
-    const getAllDevicesBtn = document.getElementById("getAllDevicesBtn");
-    const getAllDevicesText = document.getElementById("getAllDevicesText");
-    const getAllDevicesLoader = document.getElementById(
-      "getAllDevicesLoader"
-    );
-    const toggleManualInputBtn = document.getElementById(
-      "toggleManualInputBtn"
-    );
-    const devicesList = document.getElementById("devicesList");
-    const deviceStats = document.getElementById("deviceStats");
-    const deviceCount = document.getElementById("deviceCount");
-    const deviceStatus = document.getElementById("deviceStatus");
-    const manualDeviceInput = document.getElementById("manualDeviceInput");
-    const devicesTextarea = document.getElementById("devicesTextarea");
-    const notificationForm = document.getElementById("notificationForm");
-    const sendBtn = document.getElementById("sendBtn");
-    const sendBtnText = document.getElementById("sendBtnText");
-    const sendBtnLoader = document.getElementById("sendBtnLoader");
-    const statusMessages = document.getElementById("statusMessages");
-    const titleInput = document.getElementById("title");
-    const messageInput = document.getElementById("message");
-
-    // API Configuration
-    const API_CONFIG = {
-      getAllDevicesUrl: "/api/school/devices",
-      sendNotificationUrl: "/api/notification/notify",
+    const API = {
+      devices:  'https://noti-backend-eight.vercel.app/api/devices',
+      byMssv:   'https://noti-backend-eight.vercel.app/api/devices/by-mssv',
+      send:     'https://noti-backend-eight.vercel.app/api/notifications/send',
     };
 
-    const MAX_TOKEN_AMOUNT_CHUNK = 400;
+    let currentMode = 'all';   // 'all' | 'mssv'
+    let allDevices  = [];
+    let mssvDevices = [];
 
-    // Event listeners
-    getAllDevicesBtn.addEventListener("click", getAllDevices);
-    toggleManualInputBtn.addEventListener("click", toggleManualInput);
-    notificationForm.addEventListener("submit", sendNotification);
+    // ── Mode switching ──────────────────────────────────
+    function switchMode(mode) {
+      currentMode = mode;
+      ['all', 'mssv'].forEach(m => {
+        document.getElementById('mode' + capitalize(m)).classList.toggle('hidden', m !== mode);
+        document.getElementById('tab' + capitalize(m)).classList.toggle('active', m === mode);
+      });
+    }
 
-    // Get all devices function
+    function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+    // ── Load all devices ────────────────────────────────
     async function getAllDevices() {
-      showLoading(
-        getAllDevicesBtn,
-        getAllDevicesText,
-        getAllDevicesLoader,
-        "Đang tải..."
-      );
-      updateDeviceStatus("Đang tải...");
+      const btn = document.getElementById('getAllDevicesBtn');
+      const txt = document.getElementById('getAllDevicesText');
+      const ldr = document.getElementById('getAllDevicesLoader');
+      loading(btn, txt, ldr, true);
 
       try {
-        const response = await fetch(API_CONFIG.getAllDevicesUrl, {
-          method: "GET",
-          headers: {
-            token: localStorage.getItem("accessToken"),
-          },
-        });
+        const res  = await fetch(API.devices, { headers: { token: localStorage.getItem('accessToken') } });
+        const data = await res.json();
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        if (data.success) {
+          allDevices = data.data.array || [];
+          renderDeviceList('devicesList', allDevices);
 
-        const result = await response.json();
-        console.log("API result:", result);
+          const totalTokens = allDevices.reduce((s, d) => s + (d.DeviceTokens?.length || 0), 0);
+          document.getElementById('deviceCount').textContent = allDevices.length;
+          document.getElementById('tokenCount').textContent  = totalTokens;
+          document.getElementById('loadStats').classList.remove('hidden');
 
-        if (result.success) {
-          const data = result.data;
-
-          allDevices = Array.isArray(data.array) ? data.array : [];
-
-          displayDevices(allDevices);
-          updateDeviceStats(data.amount ?? 0, "đã kết nối");
-          showAlert(`Tải thành công ${data.amount ?? 0} thiết bị`, "success");
+          showAlert(`Đã tải ${allDevices.length} sinh viên, ${totalTokens} thiết bị`, 'success');
         } else {
-          showAlert("Lỗi khi tìm các thiết bị", "error");
+          showAlert('Không thể tải danh sách thiết bị', 'error');
         }
-      } catch (error) {
-        console.error("Error fetching devices:", error);
-        showAlert("Lỗi hệ thống, vui lòng thử lại sau", "error");
+      } catch (e) {
+        showAlert('Lỗi kết nối: ' + e.message, 'error');
       }
 
-      hideLoading(
-        getAllDevicesBtn,
-        getAllDevicesText,
-        getAllDevicesLoader,
-        "Lấy tất cả thiết bị"
-      );
+      loading(btn, txt, ldr, false, '<i class="fas fa-sync-alt"></i> Tải lại');
     }
 
-    function displayDevices(devices) {
-      devicesList.innerHTML = "";
+    // ── Search by MSSV ──────────────────────────────────
+    async function searchByMssv() {
+      const mssvList = document.getElementById('devicesTextarea').value
+        .split('\n').map(s => s.trim()).filter(Boolean);
 
-      if (devices.length === 0) {
-        devicesList.innerHTML =
-          '<div class="device-item">Không có sẵn thiết bị</div>';
-      } else {
-        devices.forEach((device) => {
-          const deviceElement = document.createElement("div");
-          deviceElement.className = "device-item";
-          deviceElement.innerHTML = `
-                        <div class="device-name">${device.hocVienId || "Unknown Device"
-            }</div>
-                        <div class="device-id">${device.DeviceTokens?.join(
-              " | "
-            )}</div>
-                    `;
-          devicesList.appendChild(deviceElement);
+      if (!mssvList.length) { showAlert('Chưa nhập MSSV', 'error'); return; }
+
+      const btn = document.getElementById('searchMssvBtn');
+      const txt = document.getElementById('searchMssvText');
+      const ldr = document.getElementById('searchMssvLoader');
+      loading(btn, txt, ldr, true);
+
+      try {
+        const res  = await fetch(API.byMssv, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mssvList }),
         });
+        const data = await res.json();
+
+        mssvDevices = data.success ? data.data : [];
+        renderDeviceList('mssvResult', mssvDevices);
+        if (mssvDevices.length > 0)
+          showAlert(`Tìm thấy ${mssvDevices.length} sinh viên`, 'success');
+        else
+          showAlert('Không tìm thấy sinh viên nào phù hợp', 'error');
+      } catch (e) {
+        showAlert('Lỗi tìm kiếm: ' + e.message, 'error');
       }
 
-      devicesList.classList.remove("hidden");
-      selectedDevices = devices;
+      loading(btn, txt, ldr, false, '<i class="fas fa-search"></i> Tìm sinh viên');
     }
 
-    function updateDeviceStats(count, status) {
-      deviceCount.textContent = count;
-      deviceStatus.textContent = status;
-      deviceStats.classList.remove("hidden");
-    }
+    // ── Render device list ──────────────────────────────
+    function renderDeviceList(containerId, devices) {
+      const box = document.getElementById(containerId);
+      box.innerHTML = '';
+      box.classList.remove('hidden');
 
-    function updateDeviceStatus(status) {
-      deviceStatus.textContent = status;
-      if (!deviceStats.classList.contains("hidden")) {
-        deviceStats.classList.remove("hidden");
-      }
-    }
-
-    function toggleManualInput() {
-      manualInputVisible = !manualInputVisible;
-
-      if (manualInputVisible) {
-        manualDeviceInput.classList.remove("hidden");
-        toggleManualInputBtn.textContent = "Ẩn khung nhập";
-        toggleManualInputBtn.classList.add("btn-primary");
-        devicesList.classList.add("hidden");
-      } else {
-        manualDeviceInput.classList.add("hidden");
-        toggleManualInputBtn.textContent = "Nhập thủ công";
-        toggleManualInputBtn.classList.remove("btn-primary");
-        if (allDevices.length > 0) {
-          devicesList.classList.remove("hidden");
-        }
-      }
-    }
-
-    function splitIntoChunks(array) {
-      try {
-        const chunks = [[]];
-        let chunkLength = 0;
-        let chunkIndex = 0;
-        for (let i = 0; i < array.length; i++) {
-          const currentNode = array[i];
-          chunkLength += currentNode?.DeviceTokens?.length;
-          if (chunkLength <= MAX_TOKEN_AMOUNT_CHUNK) {
-            chunks[chunkIndex].push(currentNode);
-          } else {
-            chunkLength = currentNode?.DeviceTokens?.length;
-            chunks.push([currentNode]);
-            chunkIndex++;
-          }
-        }
-        return chunks;
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    function createUUID() {
-      return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-        /[xy]/g,
-        function (c) {
-          const r = (Math.random() * 16) | 0;
-          const v = c === "x" ? r : (r & 0x3) | 0x8;
-          return v.toString(16);
-        }
-      );
-    }
-
-    async function sendNotification(event) {
-      event.preventDefault();
-
-      const title = titleInput.value.trim();
-      const message = messageInput.value.trim();
-
-      if (!title || !message) {
-        showAlert("Hãy lấy các thiết bị trước", "error");
+      if (!devices.length) {
+        box.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i>Không có sinh viên nào</div>';
         return;
       }
 
-      let devicesToSend = [];
-      if (manualInputVisible) {
-        devicesToSend = [
-          {
-            hocVienId: "231",
-            DeviceTokens: devicesTextarea.value
-              .split("\n")
-              .map((line) => line.trim())
-              .filter((line) => line.length > 0),
-          },
-        ];
+      devices.forEach(d => {
+        const name    = d.hoTen || '(Chưa có tên)';
+        const initial = name.charAt(0).toUpperCase();
+        const tokens  = d.DeviceTokens?.length || 0;
+
+        const el = document.createElement('div');
+        el.className = 'device-item';
+        el.innerHTML = `
+          <div class="device-avatar">${initial}</div>
+          <div class="device-info">
+            <div class="device-name">${name}</div>
+            <div class="device-meta">MSSV: ${d.mssv || '–'} &nbsp;·&nbsp; ID: ${d.hocVienId}</div>
+          </div>
+          <div class="device-badge">${tokens} TB</div>
+        `;
+        box.appendChild(el);
+      });
+    }
+
+    // ── Send notification ───────────────────────────────
+    document.getElementById('notificationForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title   = document.getElementById('title').value.trim();
+      const message = document.getElementById('message').value.trim();
+      if (!title || !message) { showAlert('Vui lòng nhập tiêu đề và nội dung', 'error'); return; }
+
+      let payload;
+      if (currentMode === 'all') {
+        payload = { title, msg: message, sendAll: true };
       } else {
-        devicesToSend = selectedDevices;
+        if (!mssvDevices.length) { showAlert('Chưa tìm được sinh viên nào — nhập MSSV rồi bấm Tìm', 'error'); return; }
+        payload = { title, msg: message, tokens: mssvDevices };
       }
 
-      if (devicesToSend.length === 0) {
-        showAlert("Không có thiết bị nào được gửi", "error");
-        return;
-      }
-
-      showLoading(sendBtn, sendBtnText, sendBtnLoader, "Đang gửi...");
+      const btn = document.getElementById('sendBtn');
+      const txt = document.getElementById('sendBtnText');
+      const ldr = document.getElementById('sendBtnLoader');
+      loading(btn, txt, ldr, true);
 
       try {
-        // Chunk devices into groups of 400
-        const deviceChunks = splitIntoChunks(devicesToSend);
-        let totalSuccessCount = 0;
-        let totalErrorCount = 0;
-        var id = createUUID();
+        const res  = await fetch(API.send, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
 
-        showAlert(
-          `Đang gửi đến ${deviceChunks.length} thiết bị trong tổng số ${devicesToSend.length} thiết bị...`,
-          "success"
-        );
-
-        // Send notification to each chunk
-        for (let i = 0; i < deviceChunks.length; i++) {
-          const chunk = deviceChunks[i];
-
-          // Update loading text with progress
-          sendBtnText.textContent = `Đang gửi đến ${i + 1}/${deviceChunks.length
-            }...`;
-
-          try {
-            const payload = {
-              title: title,
-              msg: message,
-              notiId: id,
-              tokens: chunk,
-            };
-
-            const response = await fetch(API_CONFIG.sendNotificationUrl, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(payload),
-            });
-
-            if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const result = await response.json();
-            const successCount = result.success ?? 0;
-            totalSuccessCount += successCount;
-
-            console.log(
-              `Batch ${i + 1}/${deviceChunks.length}: ${successCount}/${chunk.length
-              } devices successful`
-            );
-
-            // Optional: Add a small delay between batches to avoid overwhelming the API
-            if (i < deviceChunks.length - 1) {
-              await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 second delay
-            }
-          } catch (batchError) {
-            console.error(`Error in batch ${i + 1}:`, batchError);
-            totalErrorCount += chunk.length;
-            showAlert(`Cắt ${i + 1} lỗi: ${batchError.message}`, "error");
-          }
-        }
-
-        // Show final results
-        if (totalSuccessCount > 0) {
+        if (data.success) {
           showAlert(
-            `Thông báo thành công đến ${totalSuccessCount} thiết bị (${deviceChunks.length} batch)`,
-            "success"
+            `Gửi thành công ${data.successCount} thiết bị` +
+            (data.failureCount > 0 ? `, ${data.failureCount} thất bại` : ''),
+            'success'
           );
+          document.getElementById('title').value   = '';
+          document.getElementById('message').value = '';
+        } else {
+          showAlert('Lỗi: ' + data.message, 'error');
         }
-
-        if (totalErrorCount > 0) {
-          showAlert(
-            `${totalErrorCount} devices failed to receive notification`,
-            "error"
-          );
-        }
-
-        // Reset form only if there were some successes
-        if (totalSuccessCount > 0) {
-          titleInput.value = "";
-          messageInput.value = "";
-          devicesTextarea.value = "";
-        }
-      } catch (error) {
-        console.error("Error sending notification:", error);
-        showAlert(`Error: ${error.message}`, "error");
+      } catch (err) {
+        showAlert('Lỗi hệ thống: ' + err.message, 'error');
       }
 
-      hideLoading(sendBtn, sendBtnText, sendBtnLoader, "Gửi thông báo");
+      loading(btn, txt, ldr, false, '<i class="fas fa-paper-plane"></i> Gửi thông báo');
+    });
+
+    // ── Helpers ─────────────────────────────────────────
+    function loading(btn, txt, ldr, on, resetHTML) {
+      btn.disabled = on;
+      if (on) {
+        txt.classList.add('hidden');
+        ldr.classList.remove('hidden');
+      } else {
+        ldr.classList.add('hidden');
+        txt.classList.remove('hidden');
+        if (resetHTML) txt.innerHTML = resetHTML;
+      }
     }
 
-    function showLoading(button, textElement, loader, loadingText) {
-      button.disabled = true;
-      textElement.textContent = loadingText;
-      textElement.classList.add("hidden");
-      loader.classList.remove("hidden");
-    }
-
-    function hideLoading(button, textElement, loader, originalText) {
-      button.disabled = false;
-      textElement.textContent = originalText;
-      textElement.classList.remove("hidden");
-      loader.classList.add("hidden");
-    }
-
-    function showAlert(message, type) {
-      const alert = document.createElement("div");
-      alert.className = `alert alert-${type}`;
-      alert.textContent = message;
-
-      statusMessages.appendChild(alert);
-
-      setTimeout(() => {
-        if (alert.parentNode) {
-          alert.parentNode.removeChild(alert);
-        }
-      }, 5000);
+    function showAlert(msg, type) {
+      const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+      const el = document.createElement('div');
+      el.className = `alert alert-${type}`;
+      el.innerHTML = `<i class="fas ${icon}"></i> ${msg}`;
+      const box = document.getElementById('statusMessages');
+      box.appendChild(el);
+      setTimeout(() => el.remove(), 5000);
     }
 
     function logout() {
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("userInfo");
-      window.location.href = "/school";
-      document.getElementById("loginForm").reset();
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('userInfo');
+      window.location.href = '/school';
     }
   </script>
 </body>
