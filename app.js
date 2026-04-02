@@ -52,7 +52,7 @@ mongoose.connect("mongodb+srv://administrator:admin123456@cluster.jh4lmtx.mongod
     console.log("Error connecting to mongodb: ", err);
 })
 
-app.use('/api/notification', require('./routes/api/notification'));
+//app.use('/api/notification', require('./routes/api/notification'));
 app.use('/api/chat', require('./routes/api/chat'));
 app.use('/api/mobile', require('./routes/api/otp'));
 app.use('/api/mail', require("./routes/api/mail"));
